@@ -1,0 +1,2003 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_32b7ab52bb202099f8274388d114e7ce {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-textpath@1.2.3/leaflet.textpath.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/ardhi/Leaflet.MousePosition/src/L.Control.MousePosition.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ardhi/Leaflet.MousePosition/src/L.Control.MousePosition.min.css"/>
+</head>
+<body>
+    
+    
+    <div style="
+        position: fixed;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 9999;
+        width: 620px;
+        background: rgba(5, 12, 24, 0.94);
+        border: 1px solid #4da6ff;
+        border-radius: 12px;
+        padding: 12px 20px;
+        text-align: center;
+        color: white;
+        font-family: Arial, sans-serif;
+        box-shadow: 0 0 18px rgba(0,150,255,0.35);
+    ">
+        <div style="
+            font-size: 23px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        ">
+            ANTARCTIC AI
+        </div>
+
+        <div style="
+            font-size: 14px;
+            margin-top: 4px;
+            color: #9fd7ff;
+            letter-spacing: 1px;
+        ">
+            RESEARCH VESSEL COMMAND CENTER
+        </div>
+
+        <div style="
+            margin-top: 7px;
+            font-size: 11px;
+            color: #7cff9b;
+        ">
+            ● SYSTEM ONLINE &nbsp;&nbsp; | &nbsp;&nbsp;
+            AI NAVIGATION ACTIVE
+        </div>
+    </div>
+    
+    
+    <div style="
+        position: fixed;
+        left: 15px;
+        top: 90px;
+        z-index: 9998;
+        width: 255px;
+        background: rgba(5, 12, 24, 0.93);
+        border: 1px solid #4da6ff;
+        border-radius: 10px;
+        padding: 14px;
+        color: white;
+        font-family: Arial, sans-serif;
+        box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    ">
+
+        <div style="
+            font-size:15px;
+            font-weight:bold;
+            color:#8fd3ff;
+            border-bottom:1px solid #31506d;
+            padding-bottom:8px;
+            margin-bottom:10px;
+        ">
+            🚢 VESSEL STATUS
+        </div>
+
+        <div>Mission: <b>Antarctic Research</b></div>
+        <div>Speed: <b>12 knots</b></div>
+        <div>Status:
+            <span style="color:#42ff7b;">
+                ● NAVIGATION ACTIVE
+            </span>
+        </div>
+
+        <div style="
+            margin-top:12px;
+            font-size:15px;
+            font-weight:bold;
+            color:#ff6666;
+        ">
+            ⚠ RISK STATUS
+        </div>
+
+        <div style="
+            font-size:25px;
+            font-weight:bold;
+            color:#ff5555;
+        ">
+            HIGH
+        </div>
+
+        <div>Risk Score: <b>78 / 100</b></div>
+
+        <div style="
+            margin-top:12px;
+            font-size:15px;
+            font-weight:bold;
+            color:#8fd3ff;
+        ">
+            🛣️ ROUTES
+        </div>
+
+        <div style="margin-top:5px;">
+            <span style="color:#ff4d4d;">●</span>
+            Route A — Higher Risk
+        </div>
+
+        <div>
+            <span style="color:#ffb347;">●</span>
+            Route B — Alternative
+        </div>
+
+        <div>
+            <span style="color:#42ff7b;">●</span>
+            Route C — Recommended
+        </div>
+
+    </div>
+    
+    
+    <div style="
+        position: fixed;
+        left: 15px;
+        top: 365px;
+        z-index: 9998;
+        width: 255px;
+        background: rgba(5, 12, 24, 0.94);
+        border: 1px solid #31506d;
+        border-radius: 10px;
+        padding: 12px 14px;
+        color: white;
+        font-family: Arial, sans-serif;
+        box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    ">
+
+        <div style="
+            font-size:15px;
+            font-weight:bold;
+            color:#8fd3ff;
+            border-bottom:1px solid #31506d;
+            padding-bottom:8px;
+            margin-bottom:10px;
+        ">
+            🛣️ ROUTE COMPARISON
+        </div>
+
+        <!-- ROUTE A -->
+        <div style="
+            border-left:4px solid #ff4d4d;
+            padding-left:8px;
+            margin-bottom:9px;
+        ">
+            <b style="color:#ff6666;">🔴 ROUTE A</b><br>
+            <span style="font-size:11px;">
+                Risk: <b style="color:#ff6666;">HIGH</b>
+                &nbsp; | &nbsp;
+                Distance: <b>3800 km</b>
+            </span>
+        </div>
+
+        <!-- ROUTE B -->
+        <div style="
+            border-left:4px solid #ffb347;
+            padding-left:8px;
+            margin-bottom:9px;
+        ">
+            <b style="color:#ffb347;">🟠 ROUTE B</b><br>
+            <span style="font-size:11px;">
+                Risk: <b style="color:#ffb347;">MEDIUM</b>
+                &nbsp; | &nbsp;
+                Distance: <b>3950 km</b>
+            </span>
+        </div>
+
+        <!-- ROUTE C -->
+        <div style="
+            border-left:4px solid #42ff7b;
+            padding-left:8px;
+            margin-bottom:4px;
+        ">
+            <b style="color:#42ff7b;">⭐ ROUTE C</b><br>
+            <span style="font-size:11px;">
+                Risk: <b style="color:#42ff7b;">LOW</b>
+                &nbsp; | &nbsp;
+                Distance: <b>3900 km</b>
+            </span>
+        </div>
+
+        <div style="
+            margin-top:10px;
+            padding-top:8px;
+            border-top:1px solid #31506d;
+            font-size:10px;
+            color:#9fd7ff;
+        ">
+            ⭐ Recommended route based on
+            safety + fuel efficiency
+        </div>
+
+    </div>
+    
+    
+    <div style="
+        position: fixed;
+        right: 15px;
+        top: 365px;
+        z-index: 9998;
+        width: 255px;
+        background: rgba(5, 12, 24, 0.95);
+        border: 1px solid #31506d;
+        border-radius: 10px;
+        padding: 12px 14px;
+        color: white;
+        font-family: Arial, sans-serif;
+        box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    ">
+
+        <div style="
+            font-size:15px;
+            font-weight:bold;
+            color:#8fd3ff;
+            border-bottom:1px solid #31506d;
+            padding-bottom:8px;
+            margin-bottom:10px;
+        ">
+            ⭐ AI ROUTE DECISION
+        </div>
+
+        <div style="
+            background: rgba(50, 255, 120, 0.08);
+            border: 1px solid #42ff7b;
+            border-radius: 7px;
+            padding: 10px;
+            margin-bottom:10px;
+        ">
+            <div style="
+                font-size:14px;
+                font-weight:bold;
+                color:#42ff7b;
+            ">
+                ⭐ ROUTE C RECOMMENDED
+            </div>
+
+            <div style="
+                font-size:11px;
+                margin-top:7px;
+                line-height:1.7;
+            ">
+                🛡️ Safety:
+                <b style="color:#42ff7b;">LOW RISK</b><br>
+
+                🛣️ Distance:
+                <b>3900 km</b><br>
+
+                ⛽ Fuel:
+                <b>Efficient</b>
+            </div>
+        </div>
+
+        <div style="
+            font-size:11px;
+            color:#b9c9d8;
+            line-height:1.6;
+        ">
+            <b style="color:#8fd3ff;">AI Reason:</b><br>
+            Route selected by comparing
+            safety conditions and route efficiency.
+        </div>
+
+        <div style="
+            margin-top:10px;
+            padding-top:8px;
+            border-top:1px solid #31506d;
+            font-size:10px;
+            color:#42ff7b;
+            text-align:center;
+        ">
+            🤖 AI NAVIGATION ACTIVE
+        </div>
+
+    </div>
+    
+    
+    <div style="
+        position: fixed;
+        left: 50%;
+        bottom: 70px;
+        transform: translateX(-50%);
+        z-index: 9998;
+        background: rgba(5, 12, 24, 0.95);
+        border: 1px solid #42ff7b;
+        border-radius: 8px;
+        padding: 9px 18px;
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        box-shadow: 0 0 12px rgba(0,0,0,0.5);
+    ">
+        <b style="color:#42ff7b;">
+            🔄 ROUTE UPDATED
+        </b>
+        <br>
+        <span style="font-size:10px;">
+            AI Navigation • New path generated
+        </span>
+    </div>
+    
+    
+    <div style="
+        position: fixed;
+        right: 15px;
+        top: 90px;
+        z-index: 9998;
+        width: 270px;
+        background: rgba(5, 12, 24, 0.93);
+        border: 1px solid #4da6ff;
+        border-radius: 10px;
+        padding: 14px;
+        color: white;
+        font-family: Arial, sans-serif;
+        box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    ">
+
+        <div style="
+            font-size:15px;
+            font-weight:bold;
+            color:#8fd3ff;
+            border-bottom:1px solid #31506d;
+            padding-bottom:8px;
+            margin-bottom:10px;
+        ">
+            📊 ENVIRONMENT
+        </div>
+
+        <div>Sea-Ice:
+            <b style="color:#ffc107;">
+                MEDIUM
+            </b>
+        </div>
+
+        <div>Wind:
+            <b>↗ 18 knots</b>
+        </div>
+
+        <div>Ocean Current:
+            <b>1.8 knots</b>
+        </div>
+
+        <div style="
+            margin-top:12px;
+            font-size:15px;
+            font-weight:bold;
+            color:#38d9ff;
+        ">
+            🧊 ICEBERG TRACKING
+        </div>
+
+        <div>Tracked Icebergs:
+            <b>03</b>
+        </div>
+
+        <div>Predicted Movement:
+            <b style="color:#38d9ff;">
+                ACTIVE
+            </b>
+        </div>
+
+        <div style="
+            margin-top:12px;
+            font-size:15px;
+            font-weight:bold;
+            color:#42ff7b;
+        ">
+            🔄 ROUTE UPDATE
+        </div>
+
+        <div>
+            AI monitoring route continuously.
+        </div>
+
+    </div>
+    
+    
+    <div style="
+        position: fixed;
+        left: 50%;
+        bottom: 12px;
+        transform: translateX(-50%);
+        z-index: 9998;
+        width: 760px;
+        background: rgba(5, 12, 24, 0.94);
+        border: 1px solid #31506d;
+        border-radius: 10px;
+        padding: 10px;
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;
+    ">
+
+        <span style="margin:0 14px;">
+            🧊 ICE
+            <b style="color:#ffc107;">MEDIUM</b>
+        </span>
+
+        <span style="margin:0 14px;">
+            🌬 WIND
+            <b>18 kt</b>
+        </span>
+
+        <span style="margin:0 14px;">
+            🌊 OCEAN
+            <b>1.8 kt</b>
+        </span>
+
+        <span style="margin:0 14px;">
+            🧊 ICEBERGS
+            <b>03 TRACKED</b>
+        </span>
+
+        <span style="margin:0 14px;">
+            🔄 AI
+            <b style="color:#42ff7b;">ONLINE</b>
+        </span>
+
+    </div>
+    
+    
+    <div style="
+        position: fixed;
+        right: 15px;
+        bottom: 85px;
+        z-index: 9998;
+        width: 270px;
+        background: rgba(5, 12, 24, 0.92);
+        border: 1px solid #31506d;
+        border-radius: 8px;
+        padding: 10px;
+        color: white;
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+    ">
+
+        <b style="font-size:14px;">
+            MAP LEGEND
+        </b>
+
+        <hr style="border-color:#31506d;">
+
+        🚢 Vessel<br>
+        📍 Mission Destination<br>
+        🧊 Iceberg<br>
+        <span style="color:#38d9ff;">- - -</span>
+        Predicted Iceberg Movement<br>
+
+        <span style="color:#42ff7b;">━━━━</span>
+        Recommended Route<br>
+
+        <span style="color:#ff4d4d;">━━━━</span>
+        Higher Risk Route<br>
+
+        <span style="color:#ffb347;">- - -</span>
+        Alternative Route<br>
+
+        <span style="color:#ff5555;">●</span>
+        High Risk Zone<br>
+
+        <span style="color:#ffc107;">●</span>
+        Medium Risk Zone
+
+    </div>
+    
+    
+            <div class="folium-map" id="map_32b7ab52bb202099f8274388d114e7ce" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_32b7ab52bb202099f8274388d114e7ce = L.map(
+                "map_32b7ab52bb202099f8274388d114e7ce",
+                {
+                    center: [-72.0, 100.0],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 2,
+  "zoomControl": true,
+  "preferCanvas": true,
+}
+
+                }
+            );
+            L.control.scale().addTo(map_32b7ab52bb202099f8274388d114e7ce);
+
+            
+
+        
+    
+            var tile_layer_1dcea23bd2919b345fd3c25929cc2e64 = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                {
+  "minZoom": 2,
+  "maxZoom": 8,
+  "maxNativeZoom": 8,
+  "noWrap": false,
+  "attribution": "Esri World Imagery",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_1dcea23bd2919b345fd3c25929cc2e64.addTo(map_32b7ab52bb202099f8274388d114e7ce);
+        
+    
+            var feature_group_266857c3ce9bc3be13d3cd61652536ad = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_1d5b4793cb8df60941b41d00d1467794 = L.marker(
+                [-69.0, 39.0],
+                {
+}
+            ).addTo(feature_group_266857c3ce9bc3be13d3cd61652536ad);
+        
+    
+            var icon_f5f4946ec00d9862f4eb5faee2a4de16 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "ship",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f11bcdf724d4fff543370fbf05e52de6 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_162755d0169e5b44cdf66843b92f0580 = $(`<div id="html_162755d0169e5b44cdf66843b92f0580" style="width: 100.0%; height: 100.0%;">         <b>Research Vessel</b><br>         Speed: 12 knots<br>         Status: Navigation Active         </div>`)[0];
+                popup_f11bcdf724d4fff543370fbf05e52de6.setContent(html_162755d0169e5b44cdf66843b92f0580);
+            
+        
+
+        marker_1d5b4793cb8df60941b41d00d1467794.bindPopup(popup_f11bcdf724d4fff543370fbf05e52de6)
+        ;
+
+        
+    
+    
+            marker_1d5b4793cb8df60941b41d00d1467794.bindTooltip(
+                `<div>
+                     YOUR RESEARCH VESSEL
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_1d5b4793cb8df60941b41d00d1467794.setIcon(icon_f5f4946ec00d9862f4eb5faee2a4de16);
+            
+    
+            var marker_0779c202121fe054b8b7d8286a1f764b = L.marker(
+                [-67.2, 39.0],
+                {
+}
+            ).addTo(feature_group_266857c3ce9bc3be13d3cd61652536ad);
+        
+    
+            var div_icon_f3586fd6609802b239ee01f0468becb0 = L.divIcon({
+  "html": "\n            \u003cdiv style=\"\n                font-size:12px;\n                font-weight:bold;\n                color:white;\n                background:rgba(0,60,120,0.85);\n                padding:4px 7px;\n                border-radius:5px;\n                border:1px solid #4da6ff;\n                white-space:nowrap;\n            \"\u003e\n                \ud83d\udea2 YOUR VESSEL\n            \u003c/div\u003e\n            ",
+  "className": "empty",
+});
+        
+    
+                marker_0779c202121fe054b8b7d8286a1f764b.setIcon(div_icon_f3586fd6609802b239ee01f0468becb0);
+            
+    
+            feature_group_266857c3ce9bc3be13d3cd61652536ad.addTo(map_32b7ab52bb202099f8274388d114e7ce);
+        
+    
+            var feature_group_0718076976558c5499c41f5649f2dcb4 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_2754654ff65e525382f7d67683639acc = L.marker(
+                [-77.85, 166.67],
+                {
+}
+            ).addTo(feature_group_0718076976558c5499c41f5649f2dcb4);
+        
+    
+            var icon_f7e47f9d793a2e802a6a616a4eaa97ed = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "flag",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f2151fc23fa00562ffe38922bdbdbfbd = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_fce0ed176496f9818a4e399b185c10c0 = $(`<div id="html_fce0ed176496f9818a4e399b185c10c0" style="width: 100.0%; height: 100.0%;">         <b>Mission Destination</b><br>         Antarctic Research Station         </div>`)[0];
+                popup_f2151fc23fa00562ffe38922bdbdbfbd.setContent(html_fce0ed176496f9818a4e399b185c10c0);
+            
+        
+
+        marker_2754654ff65e525382f7d67683639acc.bindPopup(popup_f2151fc23fa00562ffe38922bdbdbfbd)
+        ;
+
+        
+    
+    
+            marker_2754654ff65e525382f7d67683639acc.bindTooltip(
+                `<div>
+                     MISSION DESTINATION
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_2754654ff65e525382f7d67683639acc.setIcon(icon_f7e47f9d793a2e802a6a616a4eaa97ed);
+            
+    
+            var marker_a5e1effbf4886db72ee693e27b6c2062 = L.marker(
+                [-76.05, 166.67],
+                {
+}
+            ).addTo(feature_group_0718076976558c5499c41f5649f2dcb4);
+        
+    
+            var div_icon_f81658815c8e8ad6a45ec4e6df2ee971 = L.divIcon({
+  "html": "\n            \u003cdiv style=\"\n                font-size:12px;\n                font-weight:bold;\n                color:white;\n                background:rgba(120,20,20,0.9);\n                padding:4px 7px;\n                border-radius:5px;\n                border:1px solid #ff6666;\n                white-space:nowrap;\n            \"\u003e\n                \ud83d\udccd MISSION DESTINATION\n            \u003c/div\u003e\n            ",
+  "className": "empty",
+});
+        
+    
+                marker_a5e1effbf4886db72ee693e27b6c2062.setIcon(div_icon_f81658815c8e8ad6a45ec4e6df2ee971);
+            
+    
+            feature_group_0718076976558c5499c41f5649f2dcb4.addTo(map_32b7ab52bb202099f8274388d114e7ce);
+        
+    
+            var feature_group_31c031171c9ad3a0d1c782aa754c8738 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var polygon_5fbe53cadb2ddcd92c71041276aed3f9 = L.polygon(
+                [[-64.5, 40.0], [-65.5, 60.0], [-66.5, 82.0], [-68.0, 105.0], [-70.0, 128.0], [-72.5, 150.0], [-75.0, 165.0], [-78.0, 168.0], [-77.0, 145.0], [-75.0, 120.0], [-72.5, 95.0], [-70.0, 70.0], [-67.0, 48.0]],
+                {"bubblingMouseEvents": true, "color": "#65d6ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#65d6ff", "fillOpacity": 0.08, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_31c031171c9ad3a0d1c782aa754c8738);
+        
+    
+        var popup_d665d8856b69975085c7c0369ac7ac75 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ac3f6ea2438eb48726e6e30041a4fc6d = $(`<div id="html_ac3f6ea2438eb48726e6e30041a4fc6d" style="width: 100.0%; height: 100.0%;">         <b>LOW SEA-ICE</b><br>         Lower ice concentration<br>         Navigation conditions: Relatively open         </div>`)[0];
+                popup_d665d8856b69975085c7c0369ac7ac75.setContent(html_ac3f6ea2438eb48726e6e30041a4fc6d);
+            
+        
+
+        polygon_5fbe53cadb2ddcd92c71041276aed3f9.bindPopup(popup_d665d8856b69975085c7c0369ac7ac75)
+        ;
+
+        
+    
+    
+            polygon_5fbe53cadb2ddcd92c71041276aed3f9.bindTooltip(
+                `<div>
+                     🧊 LOW ICE — Lower Concentration
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_4dd4dc76a16e45447e03c7d263ad27d7 = L.polygon(
+                [[-68.0, 52.0], [-69.0, 72.0], [-71.0, 94.0], [-73.0, 116.0], [-75.0, 138.0], [-77.0, 155.0], [-80.0, 162.0], [-81.5, 142.0], [-80.0, 118.0], [-77.5, 94.0], [-74.5, 72.0], [-71.5, 55.0]],
+                {"bubblingMouseEvents": true, "color": "#ffc107", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffc107", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_31c031171c9ad3a0d1c782aa754c8738);
+        
+    
+        var popup_2317c18130783b59c8e0b4ae8e12ae52 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ec3f73eabb8f0010d360a72618538b69 = $(`<div id="html_ec3f73eabb8f0010d360a72618538b69" style="width: 100.0%; height: 100.0%;">         <b>MEDIUM SEA-ICE</b><br>         Moderate ice concentration<br>         Navigation conditions: Caution required         </div>`)[0];
+                popup_2317c18130783b59c8e0b4ae8e12ae52.setContent(html_ec3f73eabb8f0010d360a72618538b69);
+            
+        
+
+        polygon_4dd4dc76a16e45447e03c7d263ad27d7.bindPopup(popup_2317c18130783b59c8e0b4ae8e12ae52)
+        ;
+
+        
+    
+    
+            polygon_4dd4dc76a16e45447e03c7d263ad27d7.bindTooltip(
+                `<div>
+                     🧊 MEDIUM ICE — Moderate Concentration
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var polygon_ebdca583080477bd87df5059344afbf5 = L.polygon(
+                [[-73.0, 68.0], [-75.0, 86.0], [-77.0, 105.0], [-79.0, 125.0], [-81.0, 143.0], [-84.0, 151.0], [-85.0, 132.0], [-84.0, 108.0], [-82.0, 88.0], [-78.5, 72.0]],
+                {"bubblingMouseEvents": true, "color": "#ff4d4d", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff4d4d", "fillOpacity": 0.12, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_31c031171c9ad3a0d1c782aa754c8738);
+        
+    
+        var popup_86cd79fc3819dd48d1e7847eb77b90ef = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_acf63ac555b10d8ec6a57e7bfdc1cc32 = $(`<div id="html_acf63ac555b10d8ec6a57e7bfdc1cc32" style="width: 100.0%; height: 100.0%;">         <b>HIGH SEA-ICE</b><br>         High ice concentration<br>         Navigation conditions: Difficult         </div>`)[0];
+                popup_86cd79fc3819dd48d1e7847eb77b90ef.setContent(html_acf63ac555b10d8ec6a57e7bfdc1cc32);
+            
+        
+
+        polygon_ebdca583080477bd87df5059344afbf5.bindPopup(popup_86cd79fc3819dd48d1e7847eb77b90ef)
+        ;
+
+        
+    
+    
+            polygon_ebdca583080477bd87df5059344afbf5.bindTooltip(
+                `<div>
+                     ⚠ HIGH ICE — High Concentration
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_77074946fd838d0f658fec0196f5322f = L.marker(
+                [-67.5, 95.0],
+                {
+}
+            ).addTo(feature_group_31c031171c9ad3a0d1c782aa754c8738);
+        
+    
+            var div_icon_625b7e5f0fda6bc362746e20a952a056 = L.divIcon({
+  "html": "\n            \u003cdiv style=\"\n                color:#65d6ff;\n                font-size:11px;\n                font-weight:bold;\n                background:rgba(0,20,35,0.75);\n                padding:3px 6px;\n                border:1px solid #65d6ff;\n                border-radius:4px;\n                white-space:nowrap;\n            \"\u003e\n                LOW ICE\n            \u003c/div\u003e\n            ",
+  "className": "empty",
+});
+        
+    
+                marker_77074946fd838d0f658fec0196f5322f.setIcon(div_icon_625b7e5f0fda6bc362746e20a952a056);
+            
+    
+            var marker_2b2a98a3b1aacf23feb0b59fc799b776 = L.marker(
+                [-75.5, 118.0],
+                {
+}
+            ).addTo(feature_group_31c031171c9ad3a0d1c782aa754c8738);
+        
+    
+            var div_icon_1172a43e633d8346f68ae7404c08e0eb = L.divIcon({
+  "html": "\n            \u003cdiv style=\"\n                color:#ffc107;\n                font-size:11px;\n                font-weight:bold;\n                background:rgba(35,25,0,0.75);\n                padding:3px 6px;\n                border:1px solid #ffc107;\n                border-radius:4px;\n                white-space:nowrap;\n            \"\u003e\n                MEDIUM ICE\n            \u003c/div\u003e\n            ",
+  "className": "empty",
+});
+        
+    
+                marker_2b2a98a3b1aacf23feb0b59fc799b776.setIcon(div_icon_1172a43e633d8346f68ae7404c08e0eb);
+            
+    
+            var marker_955e8849376b573ebfd397d0befefec5 = L.marker(
+                [-80.0, 115.0],
+                {
+}
+            ).addTo(feature_group_31c031171c9ad3a0d1c782aa754c8738);
+        
+    
+            var div_icon_e05505a0dab71cbc788d2725e4b48316 = L.divIcon({
+  "html": "\n            \u003cdiv style=\"\n                color:#ff6666;\n                font-size:11px;\n                font-weight:bold;\n                background:rgba(45,0,0,0.78);\n                padding:3px 6px;\n                border:1px solid #ff4d4d;\n                border-radius:4px;\n                white-space:nowrap;\n            \"\u003e\n                \u26a0 HIGH ICE\n            \u003c/div\u003e\n            ",
+  "className": "empty",
+});
+        
+    
+                marker_955e8849376b573ebfd397d0befefec5.setIcon(div_icon_e05505a0dab71cbc788d2725e4b48316);
+            
+    
+            feature_group_31c031171c9ad3a0d1c782aa754c8738.addTo(map_32b7ab52bb202099f8274388d114e7ce);
+        
+    
+            var feature_group_49c673f5eabe0f3a8e406045c2c57fb1 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var poly_line_c5491b49976cccd8c0885261f8727c83 = L.polyline(
+                [[-69.0, 39.0], [-68.5, 50.0], [-69.0, 68.0], [-70.0, 88.0], [-71.5, 110.0], [-73.0, 132.0], [-75.0, 150.0], [-77.85, 166.67]],
+                {"bubblingMouseEvents": true, "color": "#ff4d4d", "dashArray": "2,5", "dashOffset": null, "fill": false, "fillColor": "#ff4d4d", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.85, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(feature_group_49c673f5eabe0f3a8e406045c2c57fb1);
+        
+    
+        var popup_c75ec7206f2ea1f19933a7ced213153b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4588d04a08eda341791f7a16b507a13e = $(`<div id="html_4588d04a08eda341791f7a16b507a13e" style="width: 100.0%; height: 100.0%;">         <b>Route A</b><br>         Risk Level: HIGH<br>         Route Type: Higher Risk         </div>`)[0];
+                popup_c75ec7206f2ea1f19933a7ced213153b.setContent(html_4588d04a08eda341791f7a16b507a13e);
+            
+        
+
+        poly_line_c5491b49976cccd8c0885261f8727c83.bindPopup(popup_c75ec7206f2ea1f19933a7ced213153b)
+        ;
+
+        
+    
+    
+            poly_line_c5491b49976cccd8c0885261f8727c83.bindTooltip(
+                `<div>
+                     🔴 Route A — Higher Risk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_806cc3bf60217a8d20526ea971aa5493 = L.polyline(
+                [[-69.0, 39.0], [-70.0, 48.0], [-71.5, 65.0], [-73.0, 82.0], [-75.0, 103.0], [-76.0, 125.0], [-76.8, 148.0], [-77.85, 166.67]],
+                {"bubblingMouseEvents": true, "color": "#ffb347", "dashArray": "12,8", "dashOffset": null, "fill": false, "fillColor": "#ffb347", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.9, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(feature_group_49c673f5eabe0f3a8e406045c2c57fb1);
+        
+    
+        var popup_25b225b135c3dd5c89a58ecf20ed0cb2 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8d4aa4153ba3da9c762074db4aeca2d7 = $(`<div id="html_8d4aa4153ba3da9c762074db4aeca2d7" style="width: 100.0%; height: 100.0%;">         <b>Route B</b><br>         Risk Level: MEDIUM<br>         Route Type: Alternative         </div>`)[0];
+                popup_25b225b135c3dd5c89a58ecf20ed0cb2.setContent(html_8d4aa4153ba3da9c762074db4aeca2d7);
+            
+        
+
+        poly_line_806cc3bf60217a8d20526ea971aa5493.bindPopup(popup_25b225b135c3dd5c89a58ecf20ed0cb2)
+        ;
+
+        
+    
+    
+            poly_line_806cc3bf60217a8d20526ea971aa5493.bindTooltip(
+                `<div>
+                     🟠 Route B — Alternative
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_540cf0debc494b62a21c4015f521874e = L.polyline(
+                [[-69.0, 39.0], [-67.5, 46.0], [-69.0, 60.0], [-70.0, 75.0], [-71.5, 94.0], [-73.0, 115.0], [-75.0, 137.0], [-76.5, 153.0], [-77.85, 166.67]],
+                {"bubblingMouseEvents": true, "color": "#42ff7b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#42ff7b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 7}
+            ).addTo(feature_group_49c673f5eabe0f3a8e406045c2c57fb1);
+        
+    
+        var popup_10d50ad5227003471ffba3a89ff492b6 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d1a0fc8cac0cd0445a28a1ac0ff6915c = $(`<div id="html_d1a0fc8cac0cd0445a28a1ac0ff6915c" style="width: 100.0%; height: 100.0%;">         <b>Route C — Recommended</b><br>         Route Type: Recommended<br>         Purpose: Safer + Fuel-Efficient Navigation         </div>`)[0];
+                popup_10d50ad5227003471ffba3a89ff492b6.setContent(html_d1a0fc8cac0cd0445a28a1ac0ff6915c);
+            
+        
+
+        poly_line_540cf0debc494b62a21c4015f521874e.bindPopup(popup_10d50ad5227003471ffba3a89ff492b6)
+        ;
+
+        
+    
+    
+            poly_line_540cf0debc494b62a21c4015f521874e.bindTooltip(
+                `<div>
+                     ⭐ Route C — Recommended
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            poly_line_540cf0debc494b62a21c4015f521874e.setText(
+                "\u279c",
+                {
+  "repeat": true,
+  "center": false,
+  "below": false,
+  "offset": 8,
+  "orientation": 0,
+  "attributes": {
+  "fill": "#42ff7b",
+  "font-size": "17px",
+  "font-weight": "bold",
+},
+}
+            );
+        
+    
+            var marker_87d68a2ef9c96d2b546465d31f81a888 = L.marker(
+                [-69.5, 72.0],
+                {
+}
+            ).addTo(feature_group_49c673f5eabe0f3a8e406045c2c57fb1);
+        
+    
+            var div_icon_7f681a71f14ba4f2a149e8460f531169 = L.divIcon({
+  "html": "\n            \u003cdiv style=\"\n                background:rgba(40,5,5,0.88);\n                color:#ff6666;\n                padding:4px 8px;\n                border-radius:5px;\n                border:1px solid #ff4d4d;\n                font-size:11px;\n                font-weight:bold;\n                white-space:nowrap;\n                box-shadow:0 0 5px rgba(255,0,0,0.4);\n            \"\u003e\n                \ud83d\udd34 ROUTE A\n                \u003cspan style=\"\n                    font-size:9px;\n                    font-weight:normal;\n                \"\u003e\n                    HIGH RISK\n                \u003c/span\u003e\n            \u003c/div\u003e\n            ",
+  "className": "empty",
+});
+        
+    
+                marker_87d68a2ef9c96d2b546465d31f81a888.setIcon(div_icon_7f681a71f14ba4f2a149e8460f531169);
+            
+    
+            var marker_3851fdccc7f8057ad348de6ab48cc02a = L.marker(
+                [-73.5, 91.0],
+                {
+}
+            ).addTo(feature_group_49c673f5eabe0f3a8e406045c2c57fb1);
+        
+    
+            var div_icon_f714e641050a463a8c71235eededb5fa = L.divIcon({
+  "html": "\n            \u003cdiv style=\"\n                background:rgba(45,25,5,0.88);\n                color:#ffb347;\n                padding:4px 8px;\n                border-radius:5px;\n                border:1px solid #ffb347;\n                font-size:11px;\n                font-weight:bold;\n                white-space:nowrap;\n                box-shadow:0 0 5px rgba(255,165,0,0.35);\n            \"\u003e\n                \ud83d\udfe0 ROUTE B\n                \u003cspan style=\"\n                    font-size:9px;\n                    font-weight:normal;\n                \"\u003e\n                    ALTERNATIVE\n                \u003c/span\u003e\n            \u003c/div\u003e\n            ",
+  "className": "empty",
+});
+        
+    
+                marker_3851fdccc7f8057ad348de6ab48cc02a.setIcon(div_icon_f714e641050a463a8c71235eededb5fa);
+            
+    
+            var marker_81fca347b84dc536be6a5481f8186197 = L.marker(
+                [-71.5, 94.0],
+                {
+}
+            ).addTo(feature_group_49c673f5eabe0f3a8e406045c2c57fb1);
+        
+    
+            var div_icon_dbe599a1a68d87be1c8b86704e0149b9 = L.divIcon({
+  "html": "\n            \u003cdiv style=\"\n                background:rgba(5,55,20,0.92);\n                color:#42ff7b;\n                padding:5px 9px;\n                border-radius:6px;\n                border:1px solid #42ff7b;\n                font-size:12px;\n                font-weight:bold;\n                white-space:nowrap;\n                box-shadow:0 0 8px rgba(66,255,123,0.45);\n            \"\u003e\n                \u2b50 RECOMMENDED ROUTE\n            \u003c/div\u003e\n            ",
+  "className": "empty",
+});
+        
+    
+                marker_81fca347b84dc536be6a5481f8186197.setIcon(div_icon_dbe599a1a68d87be1c8b86704e0149b9);
+            
+    
+            feature_group_49c673f5eabe0f3a8e406045c2c57fb1.addTo(map_32b7ab52bb202099f8274388d114e7ce);
+        
+    
+            var feature_group_13b563dc2ecd5f464aaf2af414187387 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_b4c5d600b6c729eb988a6a00769e8ce8 = L.marker(
+                [-68.5, 55.0],
+                {
+}
+            ).addTo(feature_group_13b563dc2ecd5f464aaf2af414187387);
+        
+    
+            var div_icon_479b3ffdb63f0c92b90edbf9a6a02749 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    font-size:22px;\n                    text-align:center;\n                    filter:drop-shadow(0 0 4px black);\n                \"\u003e\n                    \ud83e\uddca\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+        
+    
+        var popup_4ec9684fef65720fc75a4c543918616b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4e3c8c6318d36caaba7e3a7d688c453c = $(`<div id="html_4e3c8c6318d36caaba7e3a7d688c453c" style="width: 100.0%; height: 100.0%;">             <b>ICEBERG 01</b><br>             Direction: North-East<br>             Status: Being Tracked             </div>`)[0];
+                popup_4ec9684fef65720fc75a4c543918616b.setContent(html_4e3c8c6318d36caaba7e3a7d688c453c);
+            
+        
+
+        marker_b4c5d600b6c729eb988a6a00769e8ce8.bindPopup(popup_4ec9684fef65720fc75a4c543918616b)
+        ;
+
+        
+    
+    
+            marker_b4c5d600b6c729eb988a6a00769e8ce8.bindTooltip(
+                `<div>
+                     ICEBERG 01
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b4c5d600b6c729eb988a6a00769e8ce8.setIcon(div_icon_479b3ffdb63f0c92b90edbf9a6a02749);
+            
+    
+            var marker_84bcbec17259d6b665b1872c2cb5b2c9 = L.marker(
+                [-67.3, 55.0],
+                {
+}
+            ).addTo(feature_group_13b563dc2ecd5f464aaf2af414187387);
+        
+    
+            var div_icon_da7e6266c07e0e84f6e7ae86f4bf5646 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    color:white;\n                    font-size:10px;\n                    background:rgba(0,0,0,0.65);\n                    padding:2px 5px;\n                    border-radius:3px;\n                    white-space:nowrap;\n                \"\u003e\n                    ICEBERG 01\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+        
+    
+                marker_84bcbec17259d6b665b1872c2cb5b2c9.setIcon(div_icon_da7e6266c07e0e84f6e7ae86f4bf5646);
+            
+    
+            var marker_7557cfc167509eb1881fbd43bf36e23d = L.marker(
+                [-71.5, 78.0],
+                {
+}
+            ).addTo(feature_group_13b563dc2ecd5f464aaf2af414187387);
+        
+    
+            var div_icon_e25c3a286db3c0f92078993143cb009d = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    font-size:22px;\n                    text-align:center;\n                    filter:drop-shadow(0 0 4px black);\n                \"\u003e\n                    \ud83e\uddca\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+        
+    
+        var popup_645ab2a7b171fdf21ca263e726e19bb3 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_581b398d310f3ca661687af4438eee75 = $(`<div id="html_581b398d310f3ca661687af4438eee75" style="width: 100.0%; height: 100.0%;">             <b>ICEBERG 02</b><br>             Direction: East<br>             Status: Being Tracked             </div>`)[0];
+                popup_645ab2a7b171fdf21ca263e726e19bb3.setContent(html_581b398d310f3ca661687af4438eee75);
+            
+        
+
+        marker_7557cfc167509eb1881fbd43bf36e23d.bindPopup(popup_645ab2a7b171fdf21ca263e726e19bb3)
+        ;
+
+        
+    
+    
+            marker_7557cfc167509eb1881fbd43bf36e23d.bindTooltip(
+                `<div>
+                     ICEBERG 02
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_7557cfc167509eb1881fbd43bf36e23d.setIcon(div_icon_e25c3a286db3c0f92078993143cb009d);
+            
+    
+            var marker_66c2fefb9afd9037a3ef92f72d8f91e9 = L.marker(
+                [-70.3, 78.0],
+                {
+}
+            ).addTo(feature_group_13b563dc2ecd5f464aaf2af414187387);
+        
+    
+            var div_icon_11813ec5ee50376e8e92479e334eba8c = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    color:white;\n                    font-size:10px;\n                    background:rgba(0,0,0,0.65);\n                    padding:2px 5px;\n                    border-radius:3px;\n                    white-space:nowrap;\n                \"\u003e\n                    ICEBERG 02\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+        
+    
+                marker_66c2fefb9afd9037a3ef92f72d8f91e9.setIcon(div_icon_11813ec5ee50376e8e92479e334eba8c);
+            
+    
+            var marker_e2a7a860524037df86a85f1d36531059 = L.marker(
+                [-74.0, 105.0],
+                {
+}
+            ).addTo(feature_group_13b563dc2ecd5f464aaf2af414187387);
+        
+    
+            var div_icon_b39c03da35a85062929cbe4b07013f1a = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    font-size:22px;\n                    text-align:center;\n                    filter:drop-shadow(0 0 4px black);\n                \"\u003e\n                    \ud83e\uddca\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+        
+    
+        var popup_9b7551018f9ba0d6b2bb3e7fef2f1e09 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5145e78172d4b215c8e430e94982fdb0 = $(`<div id="html_5145e78172d4b215c8e430e94982fdb0" style="width: 100.0%; height: 100.0%;">             <b>ICEBERG 03</b><br>             Direction: South-East<br>             Status: Being Tracked             </div>`)[0];
+                popup_9b7551018f9ba0d6b2bb3e7fef2f1e09.setContent(html_5145e78172d4b215c8e430e94982fdb0);
+            
+        
+
+        marker_e2a7a860524037df86a85f1d36531059.bindPopup(popup_9b7551018f9ba0d6b2bb3e7fef2f1e09)
+        ;
+
+        
+    
+    
+            marker_e2a7a860524037df86a85f1d36531059.bindTooltip(
+                `<div>
+                     ICEBERG 03
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e2a7a860524037df86a85f1d36531059.setIcon(div_icon_b39c03da35a85062929cbe4b07013f1a);
+            
+    
+            var marker_644c4a3f5f98c904e4cf8046de176152 = L.marker(
+                [-72.8, 105.0],
+                {
+}
+            ).addTo(feature_group_13b563dc2ecd5f464aaf2af414187387);
+        
+    
+            var div_icon_b4b8b28b5395376e9c55fe6ef883c3f8 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    color:white;\n                    font-size:10px;\n                    background:rgba(0,0,0,0.65);\n                    padding:2px 5px;\n                    border-radius:3px;\n                    white-space:nowrap;\n                \"\u003e\n                    ICEBERG 03\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+        
+    
+                marker_644c4a3f5f98c904e4cf8046de176152.setIcon(div_icon_b4b8b28b5395376e9c55fe6ef883c3f8);
+            
+    
+            feature_group_13b563dc2ecd5f464aaf2af414187387.addTo(map_32b7ab52bb202099f8274388d114e7ce);
+        
+    
+            var feature_group_860ba5698b826043b990d74920569541 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var poly_line_f749ec08cacd74f7c73a2e1ade3b1143 = L.polyline(
+                [[-68.5, 55.0], [-67.8, 61.0], [-67.1, 67.0], [-66.4, 73.0]],
+                {"bubblingMouseEvents": true, "color": "#38d9ff", "dashArray": "8,8", "dashOffset": null, "fill": false, "fillColor": "#38d9ff", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.9, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_860ba5698b826043b990d74920569541);
+        
+    
+        var popup_ff864cd42f3b56ecb2c9604b2b80b240 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ad8f456f1aa11836ced7ca5cd0556d9e = $(`<div id="html_ad8f456f1aa11836ced7ca5cd0556d9e" style="width: 100.0%; height: 100.0%;">             <b>ICEBERG 01</b><br>             Current Position → Future Position<br>             Prediction Status: ACTIVE             </div>`)[0];
+                popup_ff864cd42f3b56ecb2c9604b2b80b240.setContent(html_ad8f456f1aa11836ced7ca5cd0556d9e);
+            
+        
+
+        poly_line_f749ec08cacd74f7c73a2e1ade3b1143.bindPopup(popup_ff864cd42f3b56ecb2c9604b2b80b240)
+        ;
+
+        
+    
+    
+            poly_line_f749ec08cacd74f7c73a2e1ade3b1143.bindTooltip(
+                `<div>
+                     🔮 ICEBERG 01 — Predicted Movement
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            poly_line_f749ec08cacd74f7c73a2e1ade3b1143.setText(
+                "\u279c",
+                {
+  "repeat": true,
+  "center": false,
+  "below": false,
+  "offset": 7,
+  "orientation": 0,
+  "attributes": {
+  "fill": "#38d9ff",
+  "font-size": "15px",
+  "font-weight": "bold",
+},
+}
+            );
+        
+    
+            var circle_marker_621a8c6ced8ac07dffe42e7b9f2a259d = L.circleMarker(
+                [-67.8, 61.0],
+                {"bubblingMouseEvents": true, "color": "#38d9ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#38d9ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_860ba5698b826043b990d74920569541);
+        
+    
+            circle_marker_621a8c6ced8ac07dffe42e7b9f2a259d.bindTooltip(
+                `<div>
+                     Predicted Position
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_8f8e7bda1bffb9dfdfb14f538f50d7ad = L.circleMarker(
+                [-67.1, 67.0],
+                {"bubblingMouseEvents": true, "color": "#38d9ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#38d9ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_860ba5698b826043b990d74920569541);
+        
+    
+            circle_marker_8f8e7bda1bffb9dfdfb14f538f50d7ad.bindTooltip(
+                `<div>
+                     Predicted Position
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_68a4b639c892b2b83307946ca377743c = L.marker(
+                [-66.4, 73.0],
+                {
+}
+            ).addTo(feature_group_860ba5698b826043b990d74920569541);
+        
+    
+            var div_icon_5adc08dc4826baa613798c6f59b9af3c = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    width:24px;\n                    height:24px;\n                    border:2px solid #38d9ff;\n                    border-radius:50%;\n                    background:rgba(0,40,60,0.85);\n                    color:#38d9ff;\n                    font-size:13px;\n                    font-weight:bold;\n                    text-align:center;\n                    line-height:20px;\n                    box-shadow:0 0 8px rgba(56,217,255,0.7);\n                \"\u003e\n                    \u279c\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+        
+    
+        var popup_5e510d8e32a6368c9604312d7dee7bac = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_63ff722e29b903d06d601583df8d1856 = $(`<div id="html_63ff722e29b903d06d601583df8d1856" style="width: 100.0%; height: 100.0%;">             <b>ICEBERG 01</b><br>             🔮 Predicted Future Position<br>             Tracking Status: ACTIVE             </div>`)[0];
+                popup_5e510d8e32a6368c9604312d7dee7bac.setContent(html_63ff722e29b903d06d601583df8d1856);
+            
+        
+
+        marker_68a4b639c892b2b83307946ca377743c.bindPopup(popup_5e510d8e32a6368c9604312d7dee7bac)
+        ;
+
+        
+    
+    
+            marker_68a4b639c892b2b83307946ca377743c.bindTooltip(
+                `<div>
+                     ICEBERG 01 — Future Position
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_68a4b639c892b2b83307946ca377743c.setIcon(div_icon_5adc08dc4826baa613798c6f59b9af3c);
+            
+    
+            var marker_17b54da8014b4286304c133c3d5e1883 = L.marker(
+                [-65.4, 73.0],
+                {
+}
+            ).addTo(feature_group_860ba5698b826043b990d74920569541);
+        
+    
+            var div_icon_6b3de1de0c722f6bfeb3936545f78ac0 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    color:#38d9ff;\n                    background:rgba(0,20,35,0.82);\n                    border:1px solid #38d9ff;\n                    border-radius:4px;\n                    padding:3px 6px;\n                    font-size:10px;\n                    font-weight:bold;\n                    white-space:nowrap;\n                \"\u003e\n                    \ud83d\udd2e ICEBERG 01 FUTURE\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+        
+    
+                marker_17b54da8014b4286304c133c3d5e1883.setIcon(div_icon_6b3de1de0c722f6bfeb3936545f78ac0);
+            
+    
+            var poly_line_1c9fe9739a74f017cec5e79e308519f9 = L.polyline(
+                [[-71.5, 78.0], [-71.0, 85.0], [-70.5, 92.0], [-70.0, 99.0]],
+                {"bubblingMouseEvents": true, "color": "#38d9ff", "dashArray": "8,8", "dashOffset": null, "fill": false, "fillColor": "#38d9ff", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.9, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_860ba5698b826043b990d74920569541);
+        
+    
+        var popup_b74a06eaffe1ce08cc394d9ce0575bd2 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_239d3b3250030356437cd9b1fdf81262 = $(`<div id="html_239d3b3250030356437cd9b1fdf81262" style="width: 100.0%; height: 100.0%;">             <b>ICEBERG 02</b><br>             Current Position → Future Position<br>             Prediction Status: ACTIVE             </div>`)[0];
+                popup_b74a06eaffe1ce08cc394d9ce0575bd2.setContent(html_239d3b3250030356437cd9b1fdf81262);
+            
+        
+
+        poly_line_1c9fe9739a74f017cec5e79e308519f9.bindPopup(popup_b74a06eaffe1ce08cc394d9ce0575bd2)
+        ;
+
+        
+    
+    
+            poly_line_1c9fe9739a74f017cec5e79e308519f9.bindTooltip(
+                `<div>
+                     🔮 ICEBERG 02 — Predicted Movement
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            poly_line_1c9fe9739a74f017cec5e79e308519f9.setText(
+                "\u279c",
+                {
+  "repeat": true,
+  "center": false,
+  "below": false,
+  "offset": 7,
+  "orientation": 0,
+  "attributes": {
+  "fill": "#38d9ff",
+  "font-size": "15px",
+  "font-weight": "bold",
+},
+}
+            );
+        
+    
+            var circle_marker_896470986b4a07888981cf316cf12cad = L.circleMarker(
+                [-71.0, 85.0],
+                {"bubblingMouseEvents": true, "color": "#38d9ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#38d9ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_860ba5698b826043b990d74920569541);
+        
+    
+            circle_marker_896470986b4a07888981cf316cf12cad.bindTooltip(
+                `<div>
+                     Predicted Position
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_04a5844e8f9b9eeef945c6a7c78bbfab = L.circleMarker(
+                [-70.5, 92.0],
+                {"bubblingMouseEvents": true, "color": "#38d9ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#38d9ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_860ba5698b826043b990d74920569541);
+        
+    
+            circle_marker_04a5844e8f9b9eeef945c6a7c78bbfab.bindTooltip(
+                `<div>
+                     Predicted Position
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_8beaa3b457f650ee2172ca10750570fb = L.marker(
+                [-70.0, 99.0],
+                {
+}
+            ).addTo(feature_group_860ba5698b826043b990d74920569541);
+        
+    
+            var div_icon_8e1a70af89a36ce5e879544b6f390f4f = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    width:24px;\n                    height:24px;\n                    border:2px solid #38d9ff;\n                    border-radius:50%;\n                    background:rgba(0,40,60,0.85);\n                    color:#38d9ff;\n                    font-size:13px;\n                    font-weight:bold;\n                    text-align:center;\n                    line-height:20px;\n                    box-shadow:0 0 8px rgba(56,217,255,0.7);\n                \"\u003e\n                    \u279c\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+        
+    
+        var popup_a1e86129f75164eea6934e51adfba80e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5c77a6e6474671b4a8049c4cef83f1a3 = $(`<div id="html_5c77a6e6474671b4a8049c4cef83f1a3" style="width: 100.0%; height: 100.0%;">             <b>ICEBERG 02</b><br>             🔮 Predicted Future Position<br>             Tracking Status: ACTIVE             </div>`)[0];
+                popup_a1e86129f75164eea6934e51adfba80e.setContent(html_5c77a6e6474671b4a8049c4cef83f1a3);
+            
+        
+
+        marker_8beaa3b457f650ee2172ca10750570fb.bindPopup(popup_a1e86129f75164eea6934e51adfba80e)
+        ;
+
+        
+    
+    
+            marker_8beaa3b457f650ee2172ca10750570fb.bindTooltip(
+                `<div>
+                     ICEBERG 02 — Future Position
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_8beaa3b457f650ee2172ca10750570fb.setIcon(div_icon_8e1a70af89a36ce5e879544b6f390f4f);
+            
+    
+            var marker_be2f904d30b7cb0bca66dd94a61a6fec = L.marker(
+                [-69.0, 99.0],
+                {
+}
+            ).addTo(feature_group_860ba5698b826043b990d74920569541);
+        
+    
+            var div_icon_1267f8f60d8f8312f6faa9934918769e = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    color:#38d9ff;\n                    background:rgba(0,20,35,0.82);\n                    border:1px solid #38d9ff;\n                    border-radius:4px;\n                    padding:3px 6px;\n                    font-size:10px;\n                    font-weight:bold;\n                    white-space:nowrap;\n                \"\u003e\n                    \ud83d\udd2e ICEBERG 02 FUTURE\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+        
+    
+                marker_be2f904d30b7cb0bca66dd94a61a6fec.setIcon(div_icon_1267f8f60d8f8312f6faa9934918769e);
+            
+    
+            var poly_line_6ff84dcefc76f2c4a5cd49e9ca302c65 = L.polyline(
+                [[-74.0, 105.0], [-74.5, 112.0], [-75.0, 119.0], [-75.5, 126.0]],
+                {"bubblingMouseEvents": true, "color": "#38d9ff", "dashArray": "8,8", "dashOffset": null, "fill": false, "fillColor": "#38d9ff", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.9, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_860ba5698b826043b990d74920569541);
+        
+    
+        var popup_763d623e29bd0749f2abc5aedefca369 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_dcfe3520c9b7ee86bfd5eb3d5ac4f805 = $(`<div id="html_dcfe3520c9b7ee86bfd5eb3d5ac4f805" style="width: 100.0%; height: 100.0%;">             <b>ICEBERG 03</b><br>             Current Position → Future Position<br>             Prediction Status: ACTIVE             </div>`)[0];
+                popup_763d623e29bd0749f2abc5aedefca369.setContent(html_dcfe3520c9b7ee86bfd5eb3d5ac4f805);
+            
+        
+
+        poly_line_6ff84dcefc76f2c4a5cd49e9ca302c65.bindPopup(popup_763d623e29bd0749f2abc5aedefca369)
+        ;
+
+        
+    
+    
+            poly_line_6ff84dcefc76f2c4a5cd49e9ca302c65.bindTooltip(
+                `<div>
+                     🔮 ICEBERG 03 — Predicted Movement
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            poly_line_6ff84dcefc76f2c4a5cd49e9ca302c65.setText(
+                "\u279c",
+                {
+  "repeat": true,
+  "center": false,
+  "below": false,
+  "offset": 7,
+  "orientation": 0,
+  "attributes": {
+  "fill": "#38d9ff",
+  "font-size": "15px",
+  "font-weight": "bold",
+},
+}
+            );
+        
+    
+            var circle_marker_468d20c10b022236ada04aec6cbffa90 = L.circleMarker(
+                [-74.5, 112.0],
+                {"bubblingMouseEvents": true, "color": "#38d9ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#38d9ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_860ba5698b826043b990d74920569541);
+        
+    
+            circle_marker_468d20c10b022236ada04aec6cbffa90.bindTooltip(
+                `<div>
+                     Predicted Position
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_8a4cbe6354cf87e65e4bdf2eea583d1b = L.circleMarker(
+                [-75.0, 119.0],
+                {"bubblingMouseEvents": true, "color": "#38d9ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#38d9ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_860ba5698b826043b990d74920569541);
+        
+    
+            circle_marker_8a4cbe6354cf87e65e4bdf2eea583d1b.bindTooltip(
+                `<div>
+                     Predicted Position
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_32514a84ad08d3d68e94b287a16ed673 = L.marker(
+                [-75.5, 126.0],
+                {
+}
+            ).addTo(feature_group_860ba5698b826043b990d74920569541);
+        
+    
+            var div_icon_20d7fa9cf6e7075d058c6e8358c1952d = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    width:24px;\n                    height:24px;\n                    border:2px solid #38d9ff;\n                    border-radius:50%;\n                    background:rgba(0,40,60,0.85);\n                    color:#38d9ff;\n                    font-size:13px;\n                    font-weight:bold;\n                    text-align:center;\n                    line-height:20px;\n                    box-shadow:0 0 8px rgba(56,217,255,0.7);\n                \"\u003e\n                    \u279c\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+        
+    
+        var popup_2492a53c3e62aa192f93a9861cf7158d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7e84c8bf113fbe50c1a1aba35ceb5be1 = $(`<div id="html_7e84c8bf113fbe50c1a1aba35ceb5be1" style="width: 100.0%; height: 100.0%;">             <b>ICEBERG 03</b><br>             🔮 Predicted Future Position<br>             Tracking Status: ACTIVE             </div>`)[0];
+                popup_2492a53c3e62aa192f93a9861cf7158d.setContent(html_7e84c8bf113fbe50c1a1aba35ceb5be1);
+            
+        
+
+        marker_32514a84ad08d3d68e94b287a16ed673.bindPopup(popup_2492a53c3e62aa192f93a9861cf7158d)
+        ;
+
+        
+    
+    
+            marker_32514a84ad08d3d68e94b287a16ed673.bindTooltip(
+                `<div>
+                     ICEBERG 03 — Future Position
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_32514a84ad08d3d68e94b287a16ed673.setIcon(div_icon_20d7fa9cf6e7075d058c6e8358c1952d);
+            
+    
+            var marker_a4aa6674551a2c3c0b8d772084b282a6 = L.marker(
+                [-74.5, 126.0],
+                {
+}
+            ).addTo(feature_group_860ba5698b826043b990d74920569541);
+        
+    
+            var div_icon_f08ac7f3a9f6c5b804ecc146c68bd73a = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    color:#38d9ff;\n                    background:rgba(0,20,35,0.82);\n                    border:1px solid #38d9ff;\n                    border-radius:4px;\n                    padding:3px 6px;\n                    font-size:10px;\n                    font-weight:bold;\n                    white-space:nowrap;\n                \"\u003e\n                    \ud83d\udd2e ICEBERG 03 FUTURE\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+        
+    
+                marker_a4aa6674551a2c3c0b8d772084b282a6.setIcon(div_icon_f08ac7f3a9f6c5b804ecc146c68bd73a);
+            
+    
+            var marker_222ec5a250d8098c38dbb25bc035766c = L.marker(
+                [-66.0, 82.0],
+                {
+}
+            ).addTo(feature_group_860ba5698b826043b990d74920569541);
+        
+    
+            var div_icon_e7c0b17dd02885bfc6acbf13476df497 = L.divIcon({
+  "html": "\n            \u003cdiv style=\"\n                background:rgba(5,20,35,0.90);\n                border:1px solid #38d9ff;\n                border-radius:6px;\n                padding:6px 9px;\n                color:#38d9ff;\n                font-family:Arial,sans-serif;\n                font-size:10px;\n                font-weight:bold;\n                white-space:nowrap;\n                box-shadow:0 0 8px rgba(56,217,255,0.35);\n            \"\u003e\n                \ud83e\uddca CURRENT\n                \u0026nbsp;\u2192\u0026nbsp;\n                \ud83d\udd2e PREDICTED\n                \u0026nbsp;\u2192\u0026nbsp;\n                \ud83d\udccd FUTURE\n            \u003c/div\u003e\n            ",
+  "className": "empty",
+});
+        
+    
+                marker_222ec5a250d8098c38dbb25bc035766c.setIcon(div_icon_e7c0b17dd02885bfc6acbf13476df497);
+            
+    
+            feature_group_860ba5698b826043b990d74920569541.addTo(map_32b7ab52bb202099f8274388d114e7ce);
+        
+    
+            var feature_group_ed3e3ff5d75c6e98e5f9910a2295a642 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_5ba8bcd72fab5f3ebeea45b417e206d7 = L.circle(
+                [-71.0, 65.0],
+                {"bubblingMouseEvents": true, "color": "#ff3333", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff3333", "fillOpacity": 0.1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 180000, "stroke": true, "weight": 2}
+            ).addTo(feature_group_ed3e3ff5d75c6e98e5f9910a2295a642);
+        
+    
+            circle_5ba8bcd72fab5f3ebeea45b417e206d7.bindTooltip(
+                `<div>
+                     HIGH RISK ZONE
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_beb5cc56c11f49159c1481998eba7110 = L.circle(
+                [-74.0, 105.0],
+                {"bubblingMouseEvents": true, "color": "#ff9900", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff9900", "fillOpacity": 0.09, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 140000, "stroke": true, "weight": 2}
+            ).addTo(feature_group_ed3e3ff5d75c6e98e5f9910a2295a642);
+        
+    
+            circle_beb5cc56c11f49159c1481998eba7110.bindTooltip(
+                `<div>
+                     MEDIUM RISK ZONE
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_cc29799ca3b89cabd5d9c17158e2b978 = L.marker(
+                [-70.5, 64.0],
+                {
+}
+            ).addTo(feature_group_ed3e3ff5d75c6e98e5f9910a2295a642);
+        
+    
+            var div_icon_44a0bb9be38ac93fcc4a0307544d2079 = L.divIcon({
+  "html": "\n            \u003cdiv style=\"\n                color:#ff5555;\n                font-weight:bold;\n                font-size:12px;\n            \"\u003e\n                \u26a0 HIGH RISK\n            \u003c/div\u003e\n            ",
+  "className": "empty",
+});
+        
+    
+                marker_cc29799ca3b89cabd5d9c17158e2b978.setIcon(div_icon_44a0bb9be38ac93fcc4a0307544d2079);
+            
+    
+            var marker_72450ed105754fd66d669f966b2c537f = L.marker(
+                [-73.5, 105.0],
+                {
+}
+            ).addTo(feature_group_ed3e3ff5d75c6e98e5f9910a2295a642);
+        
+    
+            var div_icon_accb1fa8fa4509463ea13de8aaaf3da2 = L.divIcon({
+  "html": "\n            \u003cdiv style=\"\n                color:#ffb347;\n                font-weight:bold;\n                font-size:12px;\n            \"\u003e\n                \u26a0 MEDIUM RISK\n            \u003c/div\u003e\n            ",
+  "className": "empty",
+});
+        
+    
+                marker_72450ed105754fd66d669f966b2c537f.setIcon(div_icon_accb1fa8fa4509463ea13de8aaaf3da2);
+            
+    
+            feature_group_ed3e3ff5d75c6e98e5f9910a2295a642.addTo(map_32b7ab52bb202099f8274388d114e7ce);
+        
+    
+            var feature_group_8c12b775e6c550fd8d38bc40564d8bfc = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_a3a44c06977c2dd7a46c2f86e459b47e = L.marker(
+                [-66.5, 42.0],
+                {
+}
+            ).addTo(feature_group_8c12b775e6c550fd8d38bc40564d8bfc);
+        
+    
+            var div_icon_c540b9974a303b53b88fbc35acd9d9eb = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    font-size:18px;\n                    color:#9fd7ff;\n                    text-shadow:0 0 4px black;\n                \"\u003e\n                    \u2197\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+        
+    
+                marker_a3a44c06977c2dd7a46c2f86e459b47e.setIcon(div_icon_c540b9974a303b53b88fbc35acd9d9eb);
+            
+    
+            var marker_da811e482f72c5fa0feb89a71a854a6a = L.marker(
+                [-68.5, 60.0],
+                {
+}
+            ).addTo(feature_group_8c12b775e6c550fd8d38bc40564d8bfc);
+        
+    
+            var div_icon_49f7024392eb73976a117cc63db99243 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    font-size:18px;\n                    color:#9fd7ff;\n                    text-shadow:0 0 4px black;\n                \"\u003e\n                    \u2197\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+        
+    
+                marker_da811e482f72c5fa0feb89a71a854a6a.setIcon(div_icon_49f7024392eb73976a117cc63db99243);
+            
+    
+            var marker_6e593ca0e83d2281b512e3ccc8bc4576 = L.marker(
+                [-71.0, 82.0],
+                {
+}
+            ).addTo(feature_group_8c12b775e6c550fd8d38bc40564d8bfc);
+        
+    
+            var div_icon_1879e322ec90e7775f79e91e5a7192e0 = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    font-size:18px;\n                    color:#9fd7ff;\n                    text-shadow:0 0 4px black;\n                \"\u003e\n                    \u2197\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+        
+    
+                marker_6e593ca0e83d2281b512e3ccc8bc4576.setIcon(div_icon_1879e322ec90e7775f79e91e5a7192e0);
+            
+    
+            var marker_99f088b8250630fca38cb45b66851eb9 = L.marker(
+                [-73.5, 105.0],
+                {
+}
+            ).addTo(feature_group_8c12b775e6c550fd8d38bc40564d8bfc);
+        
+    
+            var div_icon_09f53e858935b0855e790c33cb7a3abe = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    font-size:18px;\n                    color:#9fd7ff;\n                    text-shadow:0 0 4px black;\n                \"\u003e\n                    \u2197\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+        
+    
+                marker_99f088b8250630fca38cb45b66851eb9.setIcon(div_icon_09f53e858935b0855e790c33cb7a3abe);
+            
+    
+            var marker_5254658c24fccfb3cb6c05d5bc52a64c = L.marker(
+                [-76.0, 128.0],
+                {
+}
+            ).addTo(feature_group_8c12b775e6c550fd8d38bc40564d8bfc);
+        
+    
+            var div_icon_2eb2c3d33843bfbf61a147ae897c78ee = L.divIcon({
+  "html": "\n                \u003cdiv style=\"\n                    font-size:18px;\n                    color:#9fd7ff;\n                    text-shadow:0 0 4px black;\n                \"\u003e\n                    \u2197\n                \u003c/div\u003e\n                ",
+  "className": "empty",
+});
+        
+    
+                marker_5254658c24fccfb3cb6c05d5bc52a64c.setIcon(div_icon_2eb2c3d33843bfbf61a147ae897c78ee);
+            
+    
+            feature_group_8c12b775e6c550fd8d38bc40564d8bfc.addTo(map_32b7ab52bb202099f8274388d114e7ce);
+        
+    
+            var feature_group_e7e4947d12ddbf3a08d3ed68c1ebfbf8 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var poly_line_71d43fad23e44116dd1e0c1916c43e91 = L.polyline(
+                [[-69.0, 39.0], [-67.5, 46.0], [-69.0, 60.0], [-70.0, 75.0], [-71.5, 94.0], [-73.0, 115.0], [-75.0, 137.0], [-76.5, 153.0], [-77.85, 166.67]],
+                {"bubblingMouseEvents": true, "color": "#888888", "dashArray": "6,10", "dashOffset": null, "fill": false, "fillColor": "#888888", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.55, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(feature_group_e7e4947d12ddbf3a08d3ed68c1ebfbf8);
+        
+    
+            poly_line_71d43fad23e44116dd1e0c1916c43e91.bindTooltip(
+                `<div>
+                     Previous Route
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_e0d59803ebe6fe949fd4253a4b98cae0 = L.polyline(
+                [[-69.0, 39.0], [-67.0, 45.0], [-68.0, 57.0], [-69.5, 70.0], [-70.5, 84.0], [-72.0, 100.0], [-73.5, 120.0], [-75.0, 142.0], [-76.5, 157.0], [-77.85, 166.67]],
+                {"bubblingMouseEvents": true, "color": "#42ff7b", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#42ff7b", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.95, "smoothFactor": 1.0, "stroke": true, "weight": 6}
+            ).addTo(feature_group_e7e4947d12ddbf3a08d3ed68c1ebfbf8);
+        
+    
+            poly_line_e0d59803ebe6fe949fd4253a4b98cae0.bindTooltip(
+                `<div>
+                     AI Updated Safe Route
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            poly_line_491fc48ff17bcef3eb2058703d92ee80.setText(
+                "\u279c",
+                {
+  "repeat": true,
+  "center": false,
+  "below": false,
+  "offset": 7,
+  "orientation": 0,
+  "attributes": {
+  "fill": "#42ff7b",
+  "font-size": "18",
+},
+}
+            );
+        
+    
+            var marker_f2728b24e8785ca92e5dad80b98d980d = L.marker(
+                [-69.5, 70.0],
+                {
+}
+            ).addTo(feature_group_e7e4947d12ddbf3a08d3ed68c1ebfbf8);
+        
+    
+            var div_icon_7739bc506a4ff071b5815b8b22826b49 = L.divIcon({
+  "html": "\n            \u003cdiv style=\"\n                font-size:22px;\n                color:#42ff7b;\n                text-shadow:0 0 8px black;\n            \"\u003e\ud83d\udd04\u003c/div\u003e\n            ",
+  "className": "empty",
+});
+        
+    
+        var popup_259da1d89c50b7965eef5b3e85baf7df = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_46cef33ec4c838b9682e9af300154a4d = $(`<div id="html_46cef33ec4c838b9682e9af300154a4d" style="width: 100.0%; height: 100.0%;">AI detected a route change and updated the navigation path.</div>`)[0];
+                popup_259da1d89c50b7965eef5b3e85baf7df.setContent(html_46cef33ec4c838b9682e9af300154a4d);
+            
+        
+
+        marker_f2728b24e8785ca92e5dad80b98d980d.bindPopup(popup_259da1d89c50b7965eef5b3e85baf7df)
+        ;
+
+        
+    
+    
+            marker_f2728b24e8785ca92e5dad80b98d980d.bindTooltip(
+                `<div>
+                     AI Re-routing Point
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_f2728b24e8785ca92e5dad80b98d980d.setIcon(div_icon_7739bc506a4ff071b5815b8b22826b49);
+            
+    
+            feature_group_e7e4947d12ddbf3a08d3ed68c1ebfbf8.addTo(map_32b7ab52bb202099f8274388d114e7ce);
+        
+    
+            var layer_control_a8dfb0382aba188f85f6b52c2aa871e6_layers = {
+                base_layers : {
+                    "https://server.arcgisonline.com/arcgis/rest/services/world_imagery/mapserver/tile/{z}/{y}/{x}" : tile_layer_1dcea23bd2919b345fd3c25929cc2e64,
+                },
+                overlays :  {
+                    "\ud83d\udea2 Research Vessel" : feature_group_266857c3ce9bc3be13d3cd61652536ad,
+                    "\ud83d\udccd Mission Destination" : feature_group_0718076976558c5499c41f5649f2dcb4,
+                    "\ud83e\uddca Sea-Ice Conditions" : feature_group_31c031171c9ad3a0d1c782aa754c8738,
+                    "\ud83d\udee3\ufe0f Navigation Routes" : feature_group_49c673f5eabe0f3a8e406045c2c57fb1,
+                    "\ud83e\uddca Icebergs" : feature_group_13b563dc2ecd5f464aaf2af414187387,
+                    "\ud83d\udd2e Predicted Iceberg Movement" : feature_group_860ba5698b826043b990d74920569541,
+                    "\u26a0\ufe0f Risk Zones" : feature_group_ed3e3ff5d75c6e98e5f9910a2295a642,
+                    "\ud83c\udf2c\ufe0f Weather / Wind" : feature_group_8c12b775e6c550fd8d38bc40564d8bfc,
+                    "\ud83d\udd04 Dynamic Re-routing" : feature_group_e7e4947d12ddbf3a08d3ed68c1ebfbf8,
+                },
+            };
+            let layer_control_a8dfb0382aba188f85f6b52c2aa871e6 = L.control.layers(
+                layer_control_a8dfb0382aba188f85f6b52c2aa871e6_layers.base_layers,
+                layer_control_a8dfb0382aba188f85f6b52c2aa871e6_layers.overlays,
+                {
+  "position": "topleft",
+  "collapsed": false,
+  "autoZIndex": true,
+}
+            ).addTo(map_32b7ab52bb202099f8274388d114e7ce);
+
+        
+    
+            var mouse_position_e6f6258ac0631c67dbaa29277674264b = new L.Control.MousePosition(
+                {
+  "position": "bottomleft",
+  "separator": " | ",
+  "emptyString": "Unavailable",
+  "lngFirst": false,
+  "numDigits": 3,
+  "prefix": "Coordinates:",
+}
+            );
+            mouse_position_e6f6258ac0631c67dbaa29277674264b.options["latFormatter"] =
+                undefined;
+            mouse_position_e6f6258ac0631c67dbaa29277674264b.options["lngFormatter"] =
+                undefined;
+            map_32b7ab52bb202099f8274388d114e7ce.addControl(mouse_position_e6f6258ac0631c67dbaa29277674264b);
+        
+    
+            map_32b7ab52bb202099f8274388d114e7ce.fitBounds(
+                [[-69.0, 39.0], [-68.5, 50], [-69.0, 68], [-70.0, 88], [-71.5, 110], [-73.0, 132], [-75.0, 150], [-77.85, 166.67], [-69.0, 39.0], [-70.0, 48], [-71.5, 65], [-73.0, 82], [-75.0, 103], [-76.0, 125], [-76.8, 148], [-77.85, 166.67], [-69.0, 39.0], [-67.5, 46], [-69.0, 60], [-70.0, 75], [-71.5, 94], [-73.0, 115], [-75.0, 137], [-76.5, 153], [-77.85, 166.67], [-69.0, 39.0], [-77.85, 166.67], [-68.5, 55], [-71.5, 78], [-74.0, 105]],
+                {"padding": [80, 80]}
+            );
+        
+</script>
+</html>
