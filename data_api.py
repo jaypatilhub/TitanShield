@@ -85,3 +85,17 @@ def get_sea_ice_for_date(data_date, latitude, longitude, output_dir="data"):
         latitude,
         longitude
     )
+def classify_sea_ice(concentration):
+    """
+    Convert sea-ice concentration (%) into a simple map category.
+    """
+    if concentration is None:
+        return "UNKNOWN"
+
+    if concentration < 30:
+        return "LOW"
+
+    if concentration <= 70:
+        return "MEDIUM"
+
+    return "HIGH"
