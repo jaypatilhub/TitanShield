@@ -1,10 +1,18 @@
 import html
+from pathlib import Path
+
 import streamlit as st
 from streamlit_folium import st_folium
 
 from map_module import create_antarctic_map
 from preprocessing import prepare_data_for_ai
 from sea_ice_prediction import generate_sea_ice_forecast
+
+from iceberg.loader import (
+    load_antarctic_icebergs,
+    prepare_iceberg_data,
+    get_nearby_icebergs_with_distance,
+)
 
 from risk_module import (
     calculate_sea_ice_risk,
@@ -44,7 +52,92 @@ m2_forecast_value = m2_forecast_result.get("forecast")
 if m2_forecast_value is None:
     m2_forecast_value = 93.0
 
-m2_category = m2_forecast_result.get("category", "UNKNOWN")
+m2_category = m2_forecast_result.get(
+    "category",
+    "UNKNOWN"
+)
+
+
+# =========================================================
+# REAL ICEBERG DATA
+# =========================================================
+
+ICEBERG_FILE = Path(
+    "data/AntarcticIcebergs_20260910.csv"
+)
+
+# Current vessel coordinate used by the existing
+# Antarctic Folium map.
+VESSEL_LATITUDE = -69.0
+VESSEL_LONGITUDE = 39.0
+
+iceberg_data_ready = False
+iceberg_data = None
+iceberg_records = []
+nearest_iceberg = None
+
+try:
+
+    raw_iceberg_data = load_antarctic_icebergs(
+        ICEBERG_FILE
+    )
+
+    iceberg_data = prepare_iceberg_data(
+        raw_iceberg_data
+    )
+
+    iceberg_records = get_nearby_icebergs_with_distance(
+        iceberg_data,
+        VESSEL_LATITUDE,
+        VESSEL_LONGITUDE,
+        max_distance_km=10000,
+    )
+
+    if iceberg_records:
+
+        nearest_iceberg = min(
+            iceberg_records,
+            key=lambda item: item["distance_km"]
+        )
+
+    iceberg_data_ready = True
+
+except Exception as error:
+
+    iceberg_data_ready = False
+    iceberg_data = None
+    iceberg_records = []
+    nearest_iceberg = None
+    iceberg_error = str(error)
+
+
+# =========================================================
+# REAL ICEBERG VALUES
+# =========================================================
+
+if nearest_iceberg:
+
+    real_iceberg_distance = float(
+        nearest_iceberg["distance_km"]
+    )
+
+    nearest_iceberg_name = str(
+        nearest_iceberg["iceberg"]
+    )
+
+else:
+
+    real_iceberg_distance = 40.0
+    nearest_iceberg_name = "UNAVAILABLE"
+
+
+if iceberg_data_ready and iceberg_data is not None:
+
+    total_icebergs = len(iceberg_data)
+
+else:
+
+    total_icebergs = 0
 
 
 # =========================================================
@@ -672,12 +765,38 @@ with st.sidebar:
         f"({m2_category})"
     )
 
-    iceberg_distance = st.number_input(
-        "Nearest Iceberg (km)",
-        min_value=0.1,
-        value=40.0,
-        step=1.0,
-    )
+    # =====================================================
+    # REAL ICEBERG DATA DISPLAY
+    # =====================================================
+
+    if iceberg_data_ready and nearest_iceberg:
+
+        st.number_input(
+            "Nearest Iceberg (km)",
+            min_value=0.1,
+            value=real_iceberg_distance,
+            step=1.0,
+            disabled=True,
+        )
+
+        st.caption(
+            f"Real USNIC data: {nearest_iceberg_name} "
+            f"({real_iceberg_distance:.1f} km)"
+        )
+
+    else:
+
+        st.number_input(
+            "Nearest Iceberg (km)",
+            min_value=0.1,
+            value=40.0,
+            step=1.0,
+            disabled=True,
+        )
+
+        st.caption(
+            "Real iceberg data unavailable."
+        )
 
     wind_speed = st.number_input(
         "Wind Speed (knots)",
@@ -693,11 +812,20 @@ with st.sidebar:
         step=0.1,
     )
 
+    # =====================================================
+    # TRAJECTORY DEMO INPUT
+    # =====================================================
+
     future_iceberg_distance = st.number_input(
         "Future Iceberg Distance (km)",
         min_value=0.1,
         value=35.0,
         step=1.0,
+    )
+
+    st.caption(
+        "Trajectory value is currently simulation/demo data; "
+        "the current USNIC CSV provides a single observation date."
     )
 
     st.divider()
@@ -714,12 +842,14 @@ with st.sidebar:
 
 raw_environment = {
     "sea_ice_concentration": sea_ice,
-    "iceberg_distance": iceberg_distance,
+    "iceberg_distance": real_iceberg_distance,
     "wind_speed": wind_speed,
     "wave_height": wave_height,
 }
 
-preprocessed = prepare_data_for_ai(raw_environment)
+preprocessed = prepare_data_for_ai(
+    raw_environment
+)
 
 
 # =========================================================
@@ -772,7 +902,9 @@ routes = generate_candidate_routes(
     destination=destination,
 )
 
-recommended_route = recommend_best_route(routes)
+recommended_route = recommend_best_route(
+    routes
+)
 
 current_route_name = recommended_route["name"]
 
@@ -790,12 +922,18 @@ if risk_assessment:
 
     overall_risk_level = risk_assessment.get(
         "risk_level",
-        risk_assessment.get("level", "UNKNOWN"),
+        risk_assessment.get(
+            "level",
+            "UNKNOWN"
+        ),
     )
 
     overall_risk_score = risk_assessment.get(
         "risk_score",
-        risk_assessment.get("score", "N/A"),
+        risk_assessment.get(
+            "score",
+            "N/A"
+        ),
     )
 
 else:
@@ -810,7 +948,10 @@ def get_risk_level(risk_data):
 
         return risk_data.get(
             "risk_level",
-            risk_data.get("level", "UNKNOWN"),
+            risk_data.get(
+                "level",
+                "UNKNOWN"
+            ),
         )
 
     return "UNKNOWN"
@@ -914,8 +1055,8 @@ st.html(
 st.html(
     """
     <div class="section-caption">
-        Environmental intelligence generated from the current
-        mission configuration and AI processing modules.
+        Environmental intelligence generated from real iceberg
+        observations, NOAA sea-ice data and current mission inputs.
     </div>
     """
 )
@@ -947,18 +1088,18 @@ with intel_col1:
 with intel_col2:
 
     st.html(
-        """
+        f"""
         <div class="info-card">
             <div class="card-label">
-                ICEBERGS TRACKED
+                ICEBERGS IN DATA
             </div>
 
             <div class="card-value">
-                03
+                {total_icebergs:02d}
             </div>
 
             <div class="card-small">
-                TRAJECTORY MONITORING ACTIVE
+                REAL USNIC OBSERVATIONS
             </div>
         </div>
         """
@@ -967,23 +1108,47 @@ with intel_col2:
 
 with intel_col3:
 
-    st.html(
-        f"""
-        <div class="info-card">
-            <div class="card-label">
-                NEAREST ICEBERG
-            </div>
+    if nearest_iceberg:
 
-            <div class="card-value">
-                {iceberg_distance:.1f} km
-            </div>
+        st.html(
+            f"""
+            <div class="info-card">
+                <div class="card-label">
+                    NEAREST ICEBERG
+                </div>
 
-            <div class="card-small">
-                FUTURE POSITION: {future_iceberg_distance:.1f} km
+                <div class="card-value">
+                    {real_iceberg_distance:.1f} km
+                </div>
+
+                <div class="card-small">
+                    {html.escape(nearest_iceberg_name)}
+                    &nbsp; | &nbsp;
+                    REAL OBSERVATION
+                </div>
             </div>
-        </div>
-        """
-    )
+            """
+        )
+
+    else:
+
+        st.html(
+            """
+            <div class="info-card">
+                <div class="card-label">
+                    NEAREST ICEBERG
+                </div>
+
+                <div class="card-value">
+                    N/A
+                </div>
+
+                <div class="card-small">
+                    REAL DATA UNAVAILABLE
+                </div>
+            </div>
+            """
+        )
 
 
 with intel_col4:
@@ -1004,6 +1169,27 @@ with intel_col4:
             </div>
         </div>
         """
+    )
+
+
+# =========================================================
+# REAL ICEBERG DATA STATUS
+# =========================================================
+
+if iceberg_data_ready and nearest_iceberg:
+
+    st.caption(
+        f"🛰️ Real iceberg data loaded: {total_icebergs} valid "
+        f"USNIC observations | Nearest: {nearest_iceberg_name} "
+        f"at {real_iceberg_distance:.1f} km from the configured "
+        f"vessel coordinate."
+    )
+
+else:
+
+    st.warning(
+        "Real iceberg dataset could not be loaded. "
+        "Iceberg risk is using fallback values."
     )
 
 
@@ -1043,7 +1229,9 @@ st_folium(
     width="stretch",
     height=700,
     key="titanshield_antarctic_map",
+    returned_objects=[],
 )
+
 
 st.html(
     """
@@ -1056,7 +1244,10 @@ st.html(
 # RISK + ROUTE COMMAND PANELS
 # =========================================================
 
-left_col, right_col = st.columns([1, 1], gap="large")
+left_col, right_col = st.columns(
+    [1, 1],
+    gap="large"
+)
 
 
 # =========================================================
@@ -1090,7 +1281,8 @@ with left_col:
                 </div>
 
                 <div class="risk-score">
-                    Safety Score: {html.escape(str(overall_risk_score))}
+                    Safety Score:
+                    {html.escape(str(overall_risk_score))}
                 </div>
 
             </div>
@@ -1125,13 +1317,19 @@ with left_col:
                 get_risk_level(trajectory_risk),
             )
 
-        hazards = risk_assessment.get("hazards", [])
+        hazards = risk_assessment.get(
+            "hazards",
+            []
+        )
 
         if hazards:
 
-            st.markdown("**⚠ DETECTED HAZARDS**")
+            st.markdown(
+                "**⚠️ DETECTED HAZARDS**"
+            )
 
             for hazard in hazards:
+
                 st.warning(hazard)
 
         else:
@@ -1172,7 +1370,8 @@ with right_col:
     for route in routes:
 
         is_recommended = (
-            route["name"] == recommended_route["name"]
+            route["name"]
+            == recommended_route["name"]
         )
 
         route_class = (
@@ -1208,9 +1407,11 @@ with right_col:
                 </div>
 
                 <div class="route-data">
-                    Travel Time: {route["travel_time_hours"]} hrs
+                    Travel Time:
+                    {route["travel_time_hours"]} hrs
                     &nbsp; | &nbsp;
-                    Route Score: {route.get("score", "-")}
+                    Route Score:
+                    {route.get("score", "-")}
                 </div>
 
             </div>
@@ -1218,7 +1419,8 @@ with right_col:
         )
 
     st.caption(
-        f"Route engine recommendation: {recommended_route['name']} "
+        f"Route engine recommendation: "
+        f"{recommended_route['name']} "
         f"based on the configured route scoring model."
     )
 
@@ -1240,7 +1442,10 @@ st.html(
     """
 )
 
-reroute_col1, reroute_col2 = st.columns([1, 2], gap="large")
+reroute_col1, reroute_col2 = st.columns(
+    [1, 2],
+    gap="large"
+)
 
 
 with reroute_col1:
@@ -1274,13 +1479,15 @@ with reroute_col2:
 
             st.warning(
                 f"Route reassessment triggered: "
-                f"{current_route_name} → {reroute_result['name']}"
+                f"{current_route_name} → "
+                f"{reroute_result['name']}"
             )
 
         else:
 
             st.success(
-                f"Current route remains {current_route_name} "
+                f"Current route remains "
+                f"{current_route_name} "
                 f"after risk reassessment."
             )
 

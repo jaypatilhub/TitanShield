@@ -455,22 +455,6 @@ def create_antarctic_map(
     recommended_line.add_to(routes_group)
 
     # ------------------------------------------------------------
-    # DIRECTION ARROWS — ONLY ON RECOMMENDED ROUTE
-    # ------------------------------------------------------------
-
-    plugins.PolyLineTextPath(
-        recommended_line,
-        "➜",
-        repeat=True,
-        offset=8,
-        attributes={
-            "fill": "#42ff7b",
-            "font-size": "17px",
-            "font-weight": "bold"
-        }
-    ).add_to(routes_group)
-
-    # ------------------------------------------------------------
     # ROUTE A LABEL
     # ------------------------------------------------------------
 
@@ -695,22 +679,6 @@ def create_antarctic_map(
         )
 
         trajectory_line.add_to(trajectory_group)
-
-        # --------------------------------------------------------
-        # DIRECTION ARROWS
-        # --------------------------------------------------------
-
-        plugins.PolyLineTextPath(
-            trajectory_line,
-            "➜",
-            repeat=True,
-            offset=7,
-            attributes={
-                "fill": "#38d9ff",
-                "font-size": "15px",
-                "font-weight": "bold"
-            }
-        ).add_to(trajectory_group)
 
         # --------------------------------------------------------
         # PREDICTED POINTS
@@ -1234,18 +1202,6 @@ def create_antarctic_map(
         weight=6,
         opacity=0.95,
         tooltip="AI Updated Safe Route"
-    ).add_to(reroute_group)
-
-    # Arrow direction on updated route
-    plugins.PolyLineTextPath(
-        folium.PolyLine(updated_route),
-        "➜",
-        repeat=True,
-        offset=7,
-        attributes={
-            "fill": "#42ff7b",
-            "font-size": "18"
-        }
     ).add_to(reroute_group)
 
     # Re-routing point
