@@ -4,6 +4,7 @@
 # =========================================================
 
 from math import atan2, asin, cos, radians, sin, sqrt, degrees
+from datetime import datetime
 
 
 def calculate_movement(previous_latitude, previous_longitude,
@@ -211,3 +212,36 @@ def get_trajectory_assessment(
 
         "status": "AVAILABLE"
     }
+    
+    
+def build_trajectory_from_observations(
+    iceberg_id,
+    previous_latitude,
+    previous_longitude,
+    previous_timestamp,
+    current_latitude,
+    current_longitude,
+    current_timestamp,
+    source="UNKNOWN"
+):
+    """
+    Build iceberg trajectory from two observed positions.
+    """
+
+    movement = calculate_movement(
+        previous_latitude,
+        previous_longitude,
+        current_latitude,
+        current_longitude,
+        previous_timestamp,
+        current_timestamp
+    )
+
+    return get_trajectory_assessment(
+        iceberg_id=iceberg_id,
+        latitude=current_latitude,
+        longitude=current_longitude,
+        speed_kmh=movement["speed_kmh"],
+        direction_degrees=movement["direction_degrees"],
+        source=source
+    )
