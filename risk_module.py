@@ -552,6 +552,7 @@ def build_navigation_risk(navigation_data):
     # -----------------------------------------------------
 
     nearest_iceberg_distance = None
+    nearest_iceberg = None
 
     if isinstance(iceberg_data, dict):
 
@@ -559,16 +560,21 @@ def build_navigation_risk(navigation_data):
             "icebergs"
         ) or []
 
-        valid_distances = [
-            iceberg.get("distance_km")
+        valid_icebergs = [
+            iceberg
             for iceberg in iceberg_list
             if isinstance(iceberg, dict)
             and iceberg.get("distance_km") is not None
         ]
 
-        if valid_distances:
-            nearest_iceberg_distance = min(
-                valid_distances
+        if valid_icebergs:
+            nearest_iceberg = min(
+                valid_icebergs,
+                key=lambda iceberg: iceberg.get("distance_km")
+            )
+
+            nearest_iceberg_distance = nearest_iceberg.get(
+                "distance_km"
             )
 
     iceberg_risk = calculate_iceberg_risk(
