@@ -245,3 +245,37 @@ def build_trajectory_from_observations(
         direction_degrees=movement["direction_degrees"],
         source=source
     )
+    
+    
+def process_m3_iceberg_record(record):
+    """
+    Process one current iceberg record received from M3.
+    """
+
+    iceberg_id = record.get("iceberg")
+    latitude = record.get("latitude")
+    longitude = record.get("longitude")
+    last_update = record.get("last_update")
+    source = record.get("source", "M3")
+
+    # Current position is required
+    if latitude is None or longitude is None:
+        return {
+            "iceberg_id": iceberg_id,
+            "status": "UNAVAILABLE",
+            "reason": "Current iceberg position is unavailable."
+        }
+
+    # Historical positions are required for movement calculation
+    return {
+        "iceberg_id": iceberg_id,
+        "current_position": {
+            "latitude": latitude,
+            "longitude": longitude
+        },
+        "observation_time": last_update,
+        "trajectory": None,
+        "status": "UNAVAILABLE",
+        "reason": "Historical iceberg position data is unavailable.",
+        "source": source
+    }
