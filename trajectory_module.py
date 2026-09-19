@@ -5,6 +5,7 @@
 
 from math import atan2, asin, cos, radians, sin, sqrt, degrees
 from datetime import datetime
+import csv
 
 
 def calculate_movement(previous_latitude, previous_longitude,
