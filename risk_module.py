@@ -1,12 +1,17 @@
 # =========================================================
 # ANTARCTIC AI - RISK INTELLIGENCE MODULE
 # M4 + M5 Integration
+# Uses the existing M3 environmental data structure
 # =========================================================
+
+
+# ---------------------------------------------------------
+# SEA-ICE RISK
+# ---------------------------------------------------------
 
 def calculate_sea_ice_risk(sea_ice_concentration):
     """
-    Calculate sea-ice risk.
-    Real value is required; unavailable data is reported honestly.
+    Calculate sea-ice risk from the available M3 sea-ice value.
     """
 
     if sea_ice_concentration is None:
@@ -44,9 +49,14 @@ def calculate_sea_ice_risk(sea_ice_concentration):
     }
 
 
+# ---------------------------------------------------------
+# ICEBERG RISK
+# ---------------------------------------------------------
+
 def calculate_iceberg_risk(distance_km):
     """
-    Calculate iceberg risk using the nearest detected iceberg.
+    Calculate iceberg risk using the nearest available
+    iceberg distance from the M3 dataset.
     """
 
     if distance_km is None:
@@ -84,12 +94,18 @@ def calculate_iceberg_risk(distance_km):
     }
 
 
-def calculate_weather_risk(wind_speed, wave_height=None, precipitation=None):
-    """
-    Calculate weather risk from available weather parameters.
+# ---------------------------------------------------------
+# WEATHER RISK
+# ---------------------------------------------------------
 
-    M3 currently provides wind speed and precipitation.
-    Wave height is optional because it is not currently supplied by M3.
+def calculate_weather_risk(
+    wind_speed,
+    wave_height=None,
+    precipitation=None
+):
+    """
+    Calculate weather risk from available M3 weather and
+    marine parameters.
     """
 
     if wind_speed is None and wave_height is None:
@@ -103,29 +119,37 @@ def calculate_weather_risk(wind_speed, wave_height=None, precipitation=None):
     reasons = []
 
     if wind_speed is not None:
+
         if wind_speed > 50:
             scores.append(95)
             reasons.append("Very high wind speed.")
+
         elif wind_speed >= 35:
             scores.append(75)
             reasons.append("High wind speed.")
+
         elif wind_speed >= 20:
             scores.append(50)
             reasons.append("Moderate wind speed.")
+
         else:
             scores.append(20)
             reasons.append("Low wind speed.")
 
     if wave_height is not None:
+
         if wave_height > 6:
             scores.append(95)
             reasons.append("Very high wave height.")
+
         elif wave_height >= 4:
             scores.append(75)
             reasons.append("High wave height.")
+
         elif wave_height >= 2:
             scores.append(50)
             reasons.append("Moderate wave height.")
+
         else:
             scores.append(20)
             reasons.append("Low wave height.")
@@ -134,10 +158,13 @@ def calculate_weather_risk(wind_speed, wave_height=None, precipitation=None):
 
     if risk_score >= 90:
         risk_level = "CRITICAL"
+
     elif risk_score >= 70:
         risk_level = "HIGH"
+
     elif risk_score >= 40:
         risk_level = "MEDIUM"
+
     else:
         risk_level = "LOW"
 
@@ -148,6 +175,99 @@ def calculate_weather_risk(wind_speed, wave_height=None, precipitation=None):
     }
 
 
+# ---------------------------------------------------------
+# OCEAN / MARINE RISK
+# ---------------------------------------------------------
+
+def calculate_ocean_marine_risk(
+    wave_height=None,
+    ocean_current_velocity=None
+):
+    """
+    Calculate marine risk using real M3 marine data.
+
+    M3 may provide:
+    - wave_height_m
+    - ocean_current_velocity_kmh
+
+    If neither value is available, report UNAVAILABLE.
+    No environmental value is fabricated.
+    """
+
+    if wave_height is None and ocean_current_velocity is None:
+        return {
+            "risk_score": None,
+            "risk_level": "UNAVAILABLE",
+            "reason": "Ocean/marine data is currently unavailable."
+        }
+
+    scores = []
+    reasons = []
+
+    if wave_height is not None:
+
+        if wave_height > 6:
+            scores.append(95)
+            reasons.append("Very high wave height.")
+
+        elif wave_height >= 4:
+            scores.append(75)
+            reasons.append("High wave height.")
+
+        elif wave_height >= 2:
+            scores.append(50)
+            reasons.append("Moderate wave height.")
+
+        else:
+            scores.append(20)
+            reasons.append("Low wave height.")
+
+    if ocean_current_velocity is not None:
+
+        if ocean_current_velocity > 5:
+            scores.append(75)
+            reasons.append("High ocean-current velocity.")
+
+        elif ocean_current_velocity >= 3:
+            scores.append(50)
+            reasons.append("Moderate ocean-current velocity.")
+
+        else:
+            scores.append(20)
+            reasons.append("Low ocean-current velocity.")
+
+    if not scores:
+        return {
+            "risk_score": None,
+            "risk_level": "UNAVAILABLE",
+            "reason": "Ocean/marine data is currently unavailable."
+        }
+
+    risk_score = max(scores)
+
+    if risk_score >= 90:
+        risk_level = "CRITICAL"
+
+    elif risk_score >= 70:
+        risk_level = "HIGH"
+
+    elif risk_score >= 40:
+        risk_level = "MEDIUM"
+
+    else:
+        risk_level = "LOW"
+
+    return {
+        "risk_score": risk_score,
+        "risk_level": risk_level,
+        "reason": " ".join(reasons)
+    }
+
+
+# ---------------------------------------------------------
+# ICEBERG TRAJECTORY RISK
+# ---------------------------------------------------------
+
 def calculate_iceberg_trajectory_risk(
     current_distance_km,
     future_distance_km=None
@@ -155,8 +275,8 @@ def calculate_iceberg_trajectory_risk(
     """
     Calculate iceberg trajectory risk.
 
-    Future trajectory is marked unavailable because the current
-    M3 iceberg dataset provides position data but not future trajectory.
+    Future trajectory remains UNAVAILABLE when M3 does not
+    provide future trajectory information.
     """
 
     if current_distance_km is None:
@@ -170,26 +290,33 @@ def calculate_iceberg_trajectory_risk(
         return {
             "risk_score": None,
             "risk_level": "UNAVAILABLE",
-            "reason": "Future iceberg trajectory data is currently unavailable."
+            "reason": (
+                "Future iceberg trajectory data is currently unavailable."
+            )
         }
 
     if future_distance_km <= 5:
         level = "CRITICAL"
         score = 95
+
     elif future_distance_km <= 15:
         level = "HIGH"
         score = 75
+
     elif future_distance_km <= 30:
         level = "MEDIUM"
         score = 50
+
     else:
         level = "LOW"
         score = 20
 
     if future_distance_km < current_distance_km:
         movement = "Iceberg is approaching the vessel route."
+
     elif future_distance_km > current_distance_km:
         movement = "Iceberg is moving away from the vessel route."
+
     else:
         movement = "Iceberg distance is unchanged."
 
@@ -200,20 +327,9 @@ def calculate_iceberg_trajectory_risk(
     }
 
 
-def calculate_ocean_marine_risk():
-    """
-    Ocean/marine risk component.
-
-    No ocean-current or wave-height dataset is currently available
-    in the M3 pipeline, so the system does not fabricate a value.
-    """
-
-    return {
-        "risk_score": None,
-        "risk_level": "UNAVAILABLE",
-        "reason": "Ocean/marine data is currently unavailable."
-    }
-
+# ---------------------------------------------------------
+# OVERALL RISK
+# ---------------------------------------------------------
 
 def calculate_overall_risk(
     sea_ice_risk,
@@ -223,7 +339,8 @@ def calculate_overall_risk(
     ocean_risk=None
 ):
     """
-    Calculate overall navigation risk using available risk components.
+    Calculate overall navigation risk from all available
+    risk components.
     """
 
     components = [
@@ -253,19 +370,29 @@ def calculate_overall_risk(
 
     if risk_score >= 90:
         risk_level = "CRITICAL"
+
     elif risk_score >= 70:
         risk_level = "HIGH"
+
     elif risk_score >= 40:
         risk_level = "MEDIUM"
+
     else:
         risk_level = "LOW"
 
     return {
         "risk_score": risk_score,
         "risk_level": risk_level,
-        "reason": "Overall risk is based on the highest available hazard score."
+        "reason": (
+            "Overall risk is based on the highest available "
+            "hazard score."
+        )
     }
 
+
+# ---------------------------------------------------------
+# RISK HAZARDS
+# ---------------------------------------------------------
 
 def get_risk_hazards(
     sea_ice_risk,
@@ -288,21 +415,32 @@ def get_risk_hazards(
     ]
 
     if ocean_risk is not None:
-        named_components.append(("Ocean/marine", ocean_risk))
+        named_components.append(
+            ("Ocean/marine", ocean_risk)
+        )
 
     for name, component in named_components:
+
         level = component.get("risk_level")
 
         if level in ["HIGH", "CRITICAL"]:
             hazards.append(
-                f"{name} risk: {component.get('reason', 'Hazard detected.')}"
+                f"{name} risk: "
+                f"{component.get('reason', 'Hazard detected.')}"
             )
 
     if not hazards:
-        hazards.append("No high or critical hazard detected from available data.")
+        hazards.append(
+            "No high or critical hazard detected "
+            "from available data."
+        )
 
     return hazards
 
+
+# ---------------------------------------------------------
+# COMPLETE RISK ASSESSMENT
+# ---------------------------------------------------------
 
 def generate_risk_assessment(
     sea_ice_risk,
@@ -355,40 +493,164 @@ def generate_risk_assessment(
     }
 
 
+# ---------------------------------------------------------
+# M3 -> M5 RISK INTEGRATION
+# ---------------------------------------------------------
+
 def build_navigation_risk(navigation_data):
     """
-    Convert M3 data adapter output into the M4 risk assessment.
+    Convert the existing M3 environmental structure into
+    the M5 navigation risk assessment.
+
+    M3 schema is preserved.
     """
 
-    weather = navigation_data.get("weather") or {}
-    iceberg = navigation_data.get("iceberg") or {}
-    sea_ice = navigation_data.get("sea_ice") or {}
+    if not isinstance(navigation_data, dict):
+        return {
+            "risk_score": None,
+            "risk_level": "UNAVAILABLE",
+            "safety_score": None,
+            "hazards": [
+                "M3 environmental input is unavailable."
+            ],
+            "components": {},
+            "explanation": (
+                "No valid M3 environmental input was provided."
+            ),
+            "m3_environment": None
+        }
+
+    data = navigation_data.get("data") or {}
+
+    weather = data.get("weather") or {}
+    marine = data.get("marine") or {}
+    sea_ice = data.get("sea_ice") or {}
+    iceberg_data = data.get("icebergs") or {}
+
+    # -----------------------------------------------------
+    # SEA-ICE
+    # -----------------------------------------------------
+
+    sea_ice_concentration = None
+
+    if isinstance(sea_ice, dict):
+        sea_ice_concentration = sea_ice.get(
+            "concentration"
+        )
+
+        if sea_ice_concentration is None:
+            sea_ice_concentration = sea_ice.get(
+                "sea_ice_concentration"
+            )
 
     sea_ice_risk = calculate_sea_ice_risk(
-        sea_ice.get("concentration")
+        sea_ice_concentration
     )
+
+    # -----------------------------------------------------
+    # ICEBERGS
+    # -----------------------------------------------------
+
+    nearest_iceberg_distance = None
+
+    if isinstance(iceberg_data, dict):
+
+        iceberg_list = iceberg_data.get(
+            "icebergs"
+        ) or []
+
+        valid_distances = [
+            iceberg.get("distance_km")
+            for iceberg in iceberg_list
+            if isinstance(iceberg, dict)
+            and iceberg.get("distance_km") is not None
+        ]
+
+        if valid_distances:
+            nearest_iceberg_distance = min(
+                valid_distances
+            )
 
     iceberg_risk = calculate_iceberg_risk(
-        iceberg.get("nearest_distance_km")
+        nearest_iceberg_distance
     )
+
+    # -----------------------------------------------------
+    # WEATHER
+    # -----------------------------------------------------
+
+    wind_speed = None
+    precipitation = None
+
+    if isinstance(weather, dict):
+        wind_speed = weather.get(
+            "wind_speed_kmh"
+        )
+
+        precipitation = weather.get(
+            "precipitation"
+        )
+
+    # -----------------------------------------------------
+    # MARINE
+    # -----------------------------------------------------
+
+    wave_height = None
+    ocean_current_velocity = None
+
+    if isinstance(marine, dict):
+        wave_height = marine.get(
+            "wave_height_m"
+        )
+
+        ocean_current_velocity = marine.get(
+            "ocean_current_velocity_kmh"
+        )
 
     weather_risk = calculate_weather_risk(
-        weather.get("wind_speed"),
-        wave_height=None,
-        precipitation=weather.get("precipitation")
+        wind_speed=wind_speed,
+        wave_height=wave_height,
+        precipitation=precipitation
     )
 
+    # -----------------------------------------------------
+    # TRAJECTORY
+    # -----------------------------------------------------
+
     trajectory_risk = calculate_iceberg_trajectory_risk(
-        iceberg.get("nearest_distance_km"),
+        nearest_iceberg_distance,
         future_distance_km=None
     )
 
-    ocean_risk = calculate_ocean_marine_risk()
+    # -----------------------------------------------------
+    # OCEAN / MARINE
+    # -----------------------------------------------------
 
-    return generate_risk_assessment(
+    ocean_risk = calculate_ocean_marine_risk(
+        wave_height=wave_height,
+        ocean_current_velocity=ocean_current_velocity
+    )
+
+    # -----------------------------------------------------
+    # FINAL ASSESSMENT
+    # -----------------------------------------------------
+
+    assessment = generate_risk_assessment(
         sea_ice_risk,
         iceberg_risk,
         weather_risk,
         trajectory_risk,
         ocean_risk
     )
+
+    # Preserve M3 metadata without modifying the M3 object.
+    assessment["m3_environment"] = {
+        "status": navigation_data.get("status"),
+        "source": navigation_data.get("source"),
+        "last_updated": navigation_data.get(
+            "last_updated"
+        ),
+        "error": navigation_data.get("error")
+    }
+
+    return assessment
